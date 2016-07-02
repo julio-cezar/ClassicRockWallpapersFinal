@@ -1,8 +1,11 @@
-package classicrockwallpapersfinal.maracujas.com.br.classicrockwallpapersfinal;
+package br.com.maracujas.classicrockwallpapersfinal;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
+/**
+ * Created by julio on 02/07/2016.
+ */
 public class DashboardActivity extends AppCompatActivity {
 
     @Override

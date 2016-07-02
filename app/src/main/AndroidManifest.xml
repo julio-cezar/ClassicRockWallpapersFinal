@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="classicrockwallpapersfinal.maracujas.com.br.classicrockwallpapersfinal">
+    package="br.com.maracujas.classicrockwallpapersfinal">
 
     <application
         android:allowBackup="true"
