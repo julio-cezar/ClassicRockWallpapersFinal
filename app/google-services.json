@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "410082417201",
+    "firebase_url": "https://classic-rock-wallpapers-final.firebaseio.com",
+    "project_id": "classic-rock-wallpapers-final",
+    "storage_bucket": "classic-rock-wallpapers-final.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:410082417201:android:a266b8b36cf3bb03",
+        "android_client_info": {
+          "package_name": "br.com.maracujas.classicrockwallpapersfinal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "410082417201-hpbq7436thf91i6jdpt379ag2d5tkbe1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7JBnRu7k2ViETg03ML0vnmyUxeQ3sLmQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
