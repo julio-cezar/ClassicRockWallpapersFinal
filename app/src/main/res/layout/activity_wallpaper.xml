@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="br.com.maracujas.classicrockwallpapersfinal.WallpaperActivity"
+    android:background="#626465" >
+    <HorizontalScrollView
+        android:id="@+id/HorizontalScrollView1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/laioutBotoes"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/IVimage1"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:padding="5dp"
+                android:src="@mipmap/ic_launcher"/>
+
+            <ImageView
+                android:id="@+id/IVimage2"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:padding="5dp"
+                android:src="@mipmap/ic_launcher"/>
+
+            <ImageView
+                android:id="@+id/IVimage3"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:padding="5dp"
+                android:src="@mipmap/ic_launcher"/>
+
+            <ImageView
+                android:id="@+id/IVimage4"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:padding="5dp"
+                android:src="@mipmap/ic_launcher"/>
+
+            <ImageView
+                android:id="@+id/IVimage5"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:padding="5dp"
+                android:src="@mipmap/ic_launcher"/>
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <ImageView
+        android:id="@+id/IVDisplay"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_above="@+id/HorizontalScrollView1"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/IBShare"
+        android:src="@mipmap/ic_launcher"/>
+
+    <LinearLayout
+        android:id="@+id/laioutBotoes"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:gravity="center" >
+
+        <Button
+            android:id="@+id/BPreview"
+            android:layout_width="161dp"
+            android:layout_height="wrap_content"
+            android:text="@string/preview" />
+
+        <Button
+            android:id="@+id/BsetWallpaper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/definir" />
+
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/IBShare"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/seletor_bt_compartilhar"
+        android:background="#626465" />
+
+    <ImageButton
+        android:id="@+id/IBSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/IVDisplay"
+        android:layout_toLeftOf="@+id/IBShare"
+        android:background="#626465"
+        android:src="@drawable/seletor_bt_salvar" />
+
+    <TextView
+        android:id="@+id/tvBanda"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/IBSave"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_toLeftOf="@+id/IBSound"
+        android:text="ACDC"
+        android:textColor="#ffffff"
+        android:textSize="20sp" />
+
+    <ImageButton
+        android:id="@+id/IBSound"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/IVDisplay"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/IBSave"
+        android:background="#626465"
+        android:src="@drawable/seletor_bt_som" />
+
+
+</RelativeLayout>

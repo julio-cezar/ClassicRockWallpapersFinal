@@ -9,29 +9,33 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="#626465"
-    tools:context="br.com.maracujas.classicrockwallpapersfinal.DashboardActivity">
+    tools:context="br.com.maracujas.classicrockwallpapersfinal.PreviewActivity">
+    <ImageView
+        android:id="@+id/imageViewPreview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:src="@mipmap/ic_launcher" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!" />
 
     <FrameLayout
-        android:id="@+id/propaganda"
+
+        android:id="@+id/propagandaP"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:background="#6f6f6f">
-
         <com.google.android.gms.ads.AdView
-            android:id="@+id/adView"
+            android:id="@+id/adViewP"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            ads:adUnitId="ca-app-pub-9694259300655137/9990442803"
-            ads:adSize="BANNER">
-        </com.google.android.gms.ads.AdView>
-
+            ads:adUnitId="ca-app-pub-9694259300655137/3804308401"
+            ads:adSize="BANNER"/>
     </FrameLayout>
+
+
 </RelativeLayout>

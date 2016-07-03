@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Classic Rock Wallpapers Final</string>
+    <string name="preview">preview</string>
+    <string name="definir">Set Wallpaper</string>
 </resources>
