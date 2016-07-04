@@ -19,6 +19,7 @@ import com.google.android.gms.ads.MobileAds;
 public class PreviewActivity extends AppCompatActivity {
     Bundle extras;
     int imageId;
+    AdView adView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +39,7 @@ public class PreviewActivity extends AppCompatActivity {
         }
         image1.setImageBitmap(decodeSampledBitmapFromResource(getResources(), imageId, 380, 600));
 
-        AdView adView = (AdView)this.findViewById(R.id.adViewP);
+        adView = (AdView)this.findViewById(R.id.adViewP);
         AdRequest adRequest = new AdRequest.Builder()
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 .addTestDevice("F0777154C5F794B0B7A1EF4120502169")
@@ -52,7 +53,15 @@ public class PreviewActivity extends AppCompatActivity {
         Cleanup();
         super.onDestroy();
         finish();
+        adView.destroy();
     }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+        adView.pause();
+    }
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -128,4 +137,12 @@ public class PreviewActivity extends AppCompatActivity {
 
         return inSampleSize;
     }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        adView.resume();
+    }
+
+
 }

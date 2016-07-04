@@ -10,44 +10,130 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="#626465"
     tools:context="br.com.maracujas.classicrockwallpapersfinal.DashboardActivity">
+    <LinearLayout
+        android:id="@+id/LinearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:background="@drawable/choose_category">
+
+    </LinearLayout>
 
     <ScrollView
         android:id="@+id/meuscroll1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:background="#6f6f6f" >
+        android:layout_below="@+id/LinearLayout1"
+        android:fillViewport="false">
 
         <LinearLayout
             android:id="@+id/linearLayout2"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="314dp"
+            android:layout_marginTop="30dp"
             android:gravity="center"
-            android:orientation="vertical"
-            android:layout_marginTop="30dp" >
+            android:orientation="vertical" >
 
-            <LinearLayout
-                style="@style/style_layout" >
+            <LinearLayout style="@style/style_layout" >
 
-                <Button
-                    android:id="@+id/bt_guns"
-                    style="@style/style_botoes"
-                    android:background="@drawable/seletor_bt_guns"
-                    android:onClick="btGuns"
-                    />
+                <LinearLayout
+                    style="@style/style_layout_botoes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
 
-                <Button
-                    android:id="@+id/bt_deeppurple"
-                    style="@style/style_botoes"
-                    android:layout_marginLeft="35dp"
-                    android:background="@drawable/seletor_bt_deeppurple"
-                    android:onClick="btDeep"
-                    />
+                    <Button
+                        android:id="@+id/bt_skull"
+                        style="@style/style_botoes"
+                        android:background="@drawable/seletor_skull"
+                        android:onClick="selecionarOpcao" />
+
+                    <TextView
+                        style="@style/style_text_botoes"
+                        android:text="@string/skull" />
+
+                </LinearLayout>
+
+
+                <TextView
+
+                    android:layout_width="35dp"
+                    android:layout_height="wrap_content"/>
+
+                <LinearLayout
+                    style="@style/style_layout_botoes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <Button
+                        android:id="@+id/bt_rock"
+                        style="@style/style_botoes"
+                        android:background="@drawable/seletor_rock"
+                        android:onClick="selecionarOpcao"/>
+
+                    <TextView
+                        style="@style/style_text_botoes"
+                        android:text="@string/rock" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"/>
+
+            <LinearLayout style="@style/style_layout" >
+
+
+
+                <LinearLayout
+                    style="@style/style_layout_botoes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <Button
+                        android:id="@+id/bt_guitar"
+                        style="@style/style_botoes"
+                        android:background="@drawable/seletor_guitar"
+                        android:onClick="selecionarOpcao" />
+
+                    <TextView
+                        style="@style/style_text_botoes"
+                        android:text="@string/guitar" />
+
+                </LinearLayout>
+
+
+                <TextView
+
+                    android:layout_width="35dp"
+                    android:layout_height="wrap_content"/>
+
+                <LinearLayout
+                    style="@style/style_layout_botoes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <Button
+                        android:id="@+id/bt_fire"
+                        style="@style/style_botoes"
+                        android:background="@drawable/seletor_fire"
+                        android:onClick="selecionarOpcao"/>
+
+                    <TextView
+                        style="@style/style_text_botoes"
+                        android:text="@string/fire" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
+
     <FrameLayout
         android:id="@+id/propaganda"
         android:layout_width="fill_parent"

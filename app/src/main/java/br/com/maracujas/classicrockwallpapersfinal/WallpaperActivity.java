@@ -2,18 +2,20 @@ package br.com.maracujas.classicrockwallpapersfinal;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.os.Vibrator;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -26,11 +28,9 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -77,19 +77,38 @@ public class WallpaperActivity extends AppCompatActivity implements View.OnClick
         storage = FirebaseStorage.getInstance();
         RootRef = storage.getReferenceFromUrl("gs://classic-rock-wallpapers-final.appspot.com");
         WallpapersRef = RootRef.child("wallpapers");
-        folderRef = WallpapersRef.child("caveira");
 
         switch (categoria) {
-            case "guns":
-                tvCategoria.setText("Guns N' Roses");
+            /*case "fire":
+                tvCategoria.setText("Rock");
+
+                folderRef = WallpapersRef.child("fire");
+                //Toast.makeText(getApplicationContext(), folderRef.getPath(), Toast.LENGTH_LONG).show();
+                StorageReference imageRef = folderRef.child("fire_1.jpg");
+                final long ONE_MEGABYTE = 1024 * 1024;
+                imageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                    @Override
+                    public void onSuccess(byte[] bytes) {
+                        image1.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.back_guns_1, 75, 75));                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        // Handle any errors
+                    }
+                });
+
+                break;*/
+
+            case "rock":
+                tvCategoria.setText("Rock");
                 image1.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.back_guns_1, 75, 75));
                 image2.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.back_guns_2, 75, 75));
                 image3.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.back_guns_3, 75, 75));
                 image4.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.back_guns_4, 75, 75));
                 image5.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.back_guns_5, 75, 75));
                 break;
-            case "deep":
-                tvCategoria.setText("Deep Purple");
+            case "skull":
+                tvCategoria.setText("Skull");
                 image1.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.back_deeppurple_1, 75, 75));
                 image2.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.back_deeppurple_2, 75, 75));
                 image3.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.back_deeppurple_3, 75, 75));
@@ -215,7 +234,7 @@ public class WallpaperActivity extends AppCompatActivity implements View.OnClick
     @Override
     public void onClick(View v) {
         switch (categoria) {
-            case "guns":
+            case "rock":
                 switch (v.getId()) {
                     case R.id.IVimage1:
                         display.setImageDrawable(null);
@@ -250,7 +269,7 @@ public class WallpaperActivity extends AppCompatActivity implements View.OnClick
                 }
                 break;
 
-            case "deep":
+            case "skull":
                 switch (v.getId()) {
                     case R.id.IVimage1:
                         display.setImageDrawable(null);
@@ -334,52 +353,63 @@ public class WallpaperActivity extends AppCompatActivity implements View.OnClick
         shareIntent.putExtra(Intent.EXTRA_TEXT, "Best Classic Rock Wallpapers!");
         shareIntent.putExtra(Intent.EXTRA_TITLE, "SHARE");
         shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         startActivity(Intent.createChooser(shareIntent, "Share image using"));
     }
 
     public void saveImage() {
-        String commonPath = Environment.getExternalStorageDirectory().toString() + "/ClassicRock";
-        File direct = new File(commonPath);
+        if (ContextCompat.checkSelfPermission(WallpaperActivity.this,
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
 
-        if (!direct.exists()) {
-            if (direct.mkdir()) {
-                Log.d("tag", "directory created");
-                //directory is created;
-            }
-
-        }
-        Bitmap bm = BitmapFactory.decodeResource(getResources(), toPhone);
-        String strtoPhone = "" + toPhone;
-        String nameFile = strtoPhone + ".jpeg";
-        OutputStream outStream = null;
-
-        File savingFile = new File(commonPath, nameFile);
-        if (!savingFile.exists()) {
-            Log.d("tag", "file is created");
-
-            try {
-                savingFile.createNewFile();
-                outStream = new FileOutputStream(savingFile);
-                bm.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
-                outStream.flush();
-                outStream.close();
-
-                Log.d("tag", "Saved");
-                Toast.makeText(getApplicationContext(), "Image Saved Succesfully!", Toast.LENGTH_LONG).show();
-
-            } catch (FileNotFoundException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-
-            }
-
+            ActivityCompat.requestPermissions(WallpaperActivity.this,
+                    new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    14);
         } else {
-            Toast.makeText(getApplicationContext(), "Image already Saved!", Toast.LENGTH_LONG).show();
+            String commonPath = Environment.getExternalStorageDirectory().toString() + "/ClassicRock";
+            File direct = new File(commonPath);
 
+            if (!direct.exists()) {
+                if (direct.mkdir()) {
+                    Log.d("tag", "directory created");
+                    //directory is created;
+                }
+
+            }
+            Bitmap bm = BitmapFactory.decodeResource(getResources(), toPhone);
+            String strtoPhone = "" + toPhone;
+            String nameFile = strtoPhone + ".jpeg";
+            OutputStream outStream = null;
+
+            File savingFile = new File(commonPath, nameFile);
+            if (!savingFile.exists()) {
+                Log.d("tag", "file is created");
+
+                try {
+
+                    savingFile.createNewFile();
+                    outStream = new FileOutputStream(savingFile);
+                    bm.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
+                    outStream.flush();
+                    outStream.close();
+
+                    Log.d("tag", "Saved");
+                    Toast.makeText(getApplicationContext(), "Image Saved Succesfully!", Toast.LENGTH_LONG).show();
+
+                } catch (FileNotFoundException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+
+                }
+
+            } else {
+                Toast.makeText(getApplicationContext(), "Image already Saved!", Toast.LENGTH_LONG).show();
+
+            }
         }
     }
 

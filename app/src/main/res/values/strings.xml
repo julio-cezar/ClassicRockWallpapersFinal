@@ -2,4 +2,9 @@
     <string name="app_name">Classic Rock Wallpapers Final</string>
     <string name="preview">preview</string>
     <string name="definir">Set Wallpaper</string>
+    <string name="select">Choose a category</string>
+    <string name="guitar">Guitarra</string>
+    <string name="fire">Fogo</string>
+    <string name="skull">Caveira</string>
+    <string name="rock">Rock</string>
 </resources>
