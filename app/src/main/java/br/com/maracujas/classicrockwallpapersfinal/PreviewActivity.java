@@ -12,6 +12,10 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+
 public class PreviewActivity extends AppCompatActivity {
     Bundle extras;
     int imageId;
@@ -33,6 +37,13 @@ public class PreviewActivity extends AppCompatActivity {
             imageId = extras.getInt("image");
         }
         image1.setImageBitmap(decodeSampledBitmapFromResource(getResources(), imageId, 380, 600));
+
+        AdView adView = (AdView)this.findViewById(R.id.adViewP);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .addTestDevice("F0777154C5F794B0B7A1EF4120502169")
+                .build();
+        adView.loadAd(adRequest);
     }
 
     @Override

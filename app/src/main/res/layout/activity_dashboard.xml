@@ -11,11 +11,43 @@
     android:background="#626465"
     tools:context="br.com.maracujas.classicrockwallpapersfinal.DashboardActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <ScrollView
+        android:id="@+id/meuscroll1"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:layout_alignParentLeft="true"
+        android:background="#6f6f6f" >
 
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_marginTop="30dp" >
+
+            <LinearLayout
+                style="@style/style_layout" >
+
+                <Button
+                    android:id="@+id/bt_guns"
+                    style="@style/style_botoes"
+                    android:background="@drawable/seletor_bt_guns"
+                    android:onClick="btGuns"
+                    />
+
+                <Button
+                    android:id="@+id/bt_deeppurple"
+                    style="@style/style_botoes"
+                    android:layout_marginLeft="35dp"
+                    android:background="@drawable/seletor_bt_deeppurple"
+                    android:onClick="btDeep"
+                    />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
     <FrameLayout
         android:id="@+id/propaganda"
         android:layout_width="fill_parent"
