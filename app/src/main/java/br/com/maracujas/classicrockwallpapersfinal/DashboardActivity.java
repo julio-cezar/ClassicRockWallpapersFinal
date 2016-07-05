@@ -3,15 +3,21 @@ package br.com.maracujas.classicrockwallpapersfinal;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 /**
  * Created by julio on 02/07/2016.
@@ -19,11 +25,17 @@ import com.google.android.gms.ads.MobileAds;
 public class DashboardActivity extends AppCompatActivity {
     Button btSkull, btRock, btGuitar, btFire;
     AdView mAdView;
+   // private FirebaseAuth mAuth;
+    private static final String TAG = "Dash#Signin";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+
+        // Initialize Firebase Auth
+        //mAuth = FirebaseAuth.getInstance();
+       // signInAnonymously();
 
         InitViews();
 
@@ -47,6 +59,23 @@ public class DashboardActivity extends AppCompatActivity {
         mAdView.loadAd(adRequest);
 
     }
+
+   /* private void signInAnonymously() {
+
+        mAuth.signInAnonymously()
+                .addOnSuccessListener(this, new OnSuccessListener<AuthResult>() {
+                    @Override
+                    public void onSuccess(AuthResult authResult) {
+                        Log.d(TAG, "signInAnonymously:SUCCESS");
+                    }
+                })
+                .addOnFailureListener(this, new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        Log.e(TAG, "signInAnonymously:FAILURE", exception);
+                    }
+                });
+    }*/
 
     private void InitViews() {
         btSkull = (Button) findViewById(R.id.bt_skull);

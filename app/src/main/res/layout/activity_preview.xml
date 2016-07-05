@@ -28,7 +28,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:background="#6f6f6f">
+        android:background="#626465">
         <com.google.android.gms.ads.AdView
             android:id="@+id/adViewP"
             android:layout_width="fill_parent"

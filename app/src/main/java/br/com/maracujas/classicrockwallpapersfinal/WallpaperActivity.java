@@ -1,5 +1,7 @@
 package br.com.maracujas.classicrockwallpapersfinal;
 
+import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -15,7 +17,9 @@ import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -26,8 +30,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -37,6 +46,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Locale;
 
 public class WallpaperActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -49,9 +59,18 @@ public class WallpaperActivity extends AppCompatActivity implements View.OnClick
     String categoria;
     TextView tvCategoria;
     FirebaseStorage storage;
-    StorageReference RootRef, WallpapersRef, folderRef, imageRef;
+    //StorageReference RootRef, WallpapersRef, folderRef, imageRef;
     final long ONE_MEGABYTE = 1024 * 1024;
+    private static final String KEY_FILE_URI = "key_file_uri";
+    private static final String KEY_DOWNLOAD_URL = "key_download_url";
+  //  private Uri mDownloadUrl = null;
+   // private Uri mFileUri = null;
+    //private ProgressDialog mProgressDialog;
+    private static final String TAG = "Storage#Wallpaper";
+   // private BroadcastReceiver mDownloadReceiver;
+    //StorageReference gsReference;
 
+    InterstitialAd mInterstitialAd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,86 +93,184 @@ public class WallpaperActivity extends AppCompatActivity implements View.OnClick
         uri = Uri.parse("android.resource://br.com.maracujas.classicrockwallpapersfinal/mipmap/ideia_icon_grande");
         display.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.mipmap.ideia_icon_grande, 150, 150));
 
-        storage = FirebaseStorage.getInstance();
-        RootRef = storage.getReferenceFromUrl("gs://classic-rock-wallpapers-final.appspot.com");
-        WallpapersRef = RootRef.child("wallpapers");
+        //storage = FirebaseStorage.getInstance();
+       // RootRef = storage.getReferenceFromUrl("gs://classic-rock-wallpapers-final.appspot.com");
+       // WallpapersRef = RootRef.child("wallpapers");
+
+        // Restore instance state
+        /*if (savedInstanceState != null) {
+            mFileUri = savedInstanceState.getParcelable(KEY_FILE_URI);
+            mDownloadUrl = savedInstanceState.getParcelable(KEY_DOWNLOAD_URL);
+        }*/
+        // gsReference = storage.getReferenceFromUrl("gs://classic-rock-wallpapers-final.appspot.com/wallpapers/fire/fire_1.jpg");
+
+       /* // Download receiver
+        mDownloadReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Log.d(TAG, "downloadReceiver:onReceive:" + intent);
+                hideProgressDialog();
+
+                if (MyDownloadService.ACTION_COMPLETED.equals(intent.getAction())) {
+                    String path = intent.getStringExtra(MyDownloadService.EXTRA_DOWNLOAD_PATH);
+                    long numBytes = intent.getLongExtra(MyDownloadService.EXTRA_BYTES_DOWNLOADED, 0);
+
+                    // Alert success
+                    showMessageDialog("Success", String.format(Locale.getDefault(),
+                            "%d bytes downloaded from %s", numBytes, path));
+                }
+
+                if (MyDownloadService.ACTION_ERROR.equals(intent.getAction())) {
+                    String path = intent.getStringExtra(MyDownloadService.EXTRA_DOWNLOAD_PATH);
+
+                    // Alert failure
+                    showMessageDialog("Error", String.format(Locale.getDefault(),
+                            "Failed to download from %s", path));
+                }
+            }
+        };*/
 
         switch (categoria) {
-            /*case "fire":
-                tvCategoria.setText("Rock");
+            case "fire":
+                tvCategoria.setText("Fire");
+                //folderRef = WallpapersRef.child("fire");
+               // StorageReference imageRef = folderRef.child("fire_1.jpg");
 
-                folderRef = WallpapersRef.child("fire");
-                //Toast.makeText(getApplicationContext(), folderRef.getPath(), Toast.LENGTH_LONG).show();
-                StorageReference imageRef = folderRef.child("fire_1.jpg");
-                final long ONE_MEGABYTE = 1024 * 1024;
-                imageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                //StorageReference gsReference = storage.getReferenceFromUrl("gs://classic-rock-wallpapers-final.appspot.com/wallpapers/fire/fire_1.jpg");
+                /*final long ONE_MEGABYTE = 1024 * 1024;
+                gsReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
                     @Override
                     public void onSuccess(byte[] bytes) {
-                        image1.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.back_guns_1, 75, 75));                    }
+                        Toast.makeText(getApplicationContext(), "sucesso", Toast.LENGTH_LONG).show();
+                    }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception exception) {
-                        // Handle any errors
+                        Toast.makeText(getApplicationContext(), "falhou", Toast.LENGTH_LONG).show();
                     }
-                });
-
-                break;*/
+                });*/
+               /* final long ONE_MEGABYTE = 1024 * 1024;
+                imageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                    @Override
+                    public void onSuccess(byte[] bytes) {
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                      //  image1.setImageBitmap(bitmap);
+                        image1.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.back_guns_1, 75, 75));
+                        Toast.makeText(getApplicationContext(), folderRef.getPath(), Toast.LENGTH_LONG).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        Toast.makeText(getApplicationContext(), exception.toString(), Toast.LENGTH_LONG).show();
+                        image1.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.back_guns_1, 75, 75));
+                    }
+                });*/
+                image1.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.fire_1, 75, 75));
+                image2.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.fire_2, 75, 75));
+                image3.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.fire_3, 75, 75));
+                image4.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.fire_4, 75, 75));
+                image5.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.fire_5, 75, 75));
+                break;
 
             case "rock":
                 tvCategoria.setText("Rock");
-                image1.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.back_guns_1, 75, 75));
-                image2.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.back_guns_2, 75, 75));
-                image3.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.back_guns_3, 75, 75));
-                image4.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.back_guns_4, 75, 75));
-                image5.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.back_guns_5, 75, 75));
+                image1.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.rock_1, 75, 75));
+                image2.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.rock_2, 75, 75));
+                image3.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.rock_3, 75, 75));
+                image4.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.rock_4, 75, 75));
+                image5.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.rock_5, 75, 75));
                 break;
             case "skull":
                 tvCategoria.setText("Skull");
-                image1.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.back_deeppurple_1, 75, 75));
-                image2.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.back_deeppurple_2, 75, 75));
-                image3.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.back_deeppurple_3, 75, 75));
-                image4.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.back_deeppurple_4, 75, 75));
-                image5.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.back_deeppurple_5, 75, 75));
+                image1.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.skull_1, 75, 75));
+                image2.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.skull_2, 75, 75));
+                image3.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.skull_3, 75, 75));
+                image4.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.skull_4, 75, 75));
+                image5.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.skull_5, 75, 75));
+                break;
+            case "guitar":
+                tvCategoria.setText("Guitar");
+             //  beginDownload();
+                image1.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.gitarra_1, 75, 75));
+                image2.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.gitarra_2, 75, 75));
+                image3.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.gitarra_3, 75, 75));
+                image4.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.gitarra_4, 75, 75));
+                image5.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.gitarra_5, 75, 75));
                 break;
             case "no":
                 Toast.makeText(getApplicationContext(), "no Image!", Toast.LENGTH_LONG).show();
                 break;
         }
-       /* switch(banda) {
-            case "no":
-                tvBanda.setText("Caveiras");
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-9694259300655137/3637368002");
 
-                imageRef = folderRef.child("skull_1.jpg");
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                requestNewInterstitial();
+            }
+        });
 
-                File localFile = null;
-                try {
-                    localFile = File.createTempFile("images", "jpg");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                imageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                        // Local temp file has been created
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        // Handle any errors
-                    }
-                });
-
-                image1.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.back_ff_1, 75, 75));
-                image2.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.back_ff_2, 75, 75));
-                image3.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.back_ff_3, 75, 75));
-                image4.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.back_ff_4, 75, 75));
-                image5.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.back_ff_5, 75, 75));
-                break;
-        }*/
-
+        requestNewInterstitial();
 
     }
+
+    private void requestNewInterstitial() {
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice("F0777154C5F794B0B7A1EF4120502169")
+                .build();
+
+        mInterstitialAd.loadAd(adRequest);
+    }
+
+
+    /*private void showMessageDialog(String title, String message) {
+        AlertDialog ad = new AlertDialog.Builder(this)
+                .setTitle(title)
+                .setMessage(message)
+                .create();
+        ad.show();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle out) {
+        super.onSaveInstanceState(out);
+        out.putParcelable(KEY_FILE_URI, mFileUri);
+        out.putParcelable(KEY_DOWNLOAD_URL, mDownloadUrl);
+    }*/
+
+   /* private void beginDownload() {
+        // Get path
+       // String path = "photos/" + mFileUri.getLastPathSegment();
+        //String path = ""+gsReference.getDownloadUrl();
+        folderRef = WallpapersRef.child("fire");
+        imageRef = folderRef.child("fire_1.jpg");
+        String path = imageRef.getPath();
+        Log.d(TAG, path);
+
+        // Kick off download service
+        Intent intent = new Intent(this, MyDownloadService.class);
+        intent.setAction(MyDownloadService.ACTION_DOWNLOAD);
+        intent.putExtra(MyDownloadService.EXTRA_DOWNLOAD_PATH, path);
+        startService(intent);
+
+        // Show loading spinner
+        showProgressDialog();
+    }
+    private void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setMessage("Loading...");
+            mProgressDialog.setIndeterminate(true);
+        }
+
+        mProgressDialog.show();
+    }
+    private void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
+    }*/
 
     private void setListeners() {
         image1.setOnClickListener(this);
@@ -233,38 +350,41 @@ public class WallpaperActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onClick(View v) {
+        if (mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
+        }
         switch (categoria) {
             case "rock":
                 switch (v.getId()) {
                     case R.id.IVimage1:
                         display.setImageDrawable(null);
-                        display.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.back_guns_1, 150, 150));
-                        toPhone = R.drawable.back_guns_1;
-                        uri = Uri.parse("android.resource://br.com.maracujas.classicrockwallpapersfinal/drawable/back_guns_1");
+                        display.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.rock_1, 150, 150));
+                        toPhone = R.drawable.rock_1;
+                        uri = Uri.parse("android.resource://br.com.maracujas.classicrockwallpapersfinal/drawable/rock_1");
                         break;
                     case R.id.IVimage2:
                         display.setImageDrawable(null);
-                        display.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.back_guns_2, 150, 150));
-                        toPhone = R.drawable.back_guns_2;
-                        uri = Uri.parse("android.resource://br.com.maracujas.classicrockwallpapersfinal/drawable/back_guns_2");
+                        display.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.rock_2, 150, 150));
+                        toPhone = R.drawable.rock_2;
+                        uri = Uri.parse("android.resource://br.com.maracujas.classicrockwallpapersfinal/drawable/rock_2");
                         break;
                     case R.id.IVimage3:
                         display.setImageDrawable(null);
-                        display.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.back_guns_3, 150, 150));
-                        toPhone = R.drawable.back_guns_3;
-                        uri = Uri.parse("android.resource://br.com.maracujas.classicrockwallpapersfinal/drawable/back_guns_3");
+                        display.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.rock_3, 150, 150));
+                        toPhone = R.drawable.rock_3;
+                        uri = Uri.parse("android.resource://br.com.maracujas.classicrockwallpapersfinal/drawable/rock_3");
                         break;
                     case R.id.IVimage4:
                         display.setImageDrawable(null);
-                        display.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.back_guns_4, 150, 150));
-                        toPhone = R.drawable.back_guns_4;
-                        uri = Uri.parse("android.resource://br.com.maracujas.classicrockwallpapersfinal/drawable/back_guns_4");
+                        display.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.rock_4, 150, 150));
+                        toPhone = R.drawable.rock_4;
+                        uri = Uri.parse("android.resource://br.com.maracujas.classicrockwallpapersfinal/drawable/rock_4");
                         break;
                     case R.id.IVimage5:
                         display.setImageDrawable(null);
-                        display.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.back_guns_5, 150, 150));
-                        toPhone = R.drawable.back_guns_5;
-                        uri = Uri.parse("android.resource://br.com.maracujas.classicrockwallpapersfinal/drawable/back_guns_5");
+                        display.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.rock_5, 150, 150));
+                        toPhone = R.drawable.rock_5;
+                        uri = Uri.parse("android.resource://br.com.maracujas.classicrockwallpapersfinal/drawable/rock_5");
                         break;
                 }
                 break;
@@ -273,33 +393,102 @@ public class WallpaperActivity extends AppCompatActivity implements View.OnClick
                 switch (v.getId()) {
                     case R.id.IVimage1:
                         display.setImageDrawable(null);
-                        display.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.back_deeppurple_1, 150, 150));
-                        toPhone = R.drawable.back_deeppurple_1;
-                        uri = Uri.parse("android.resource://br.com.maracujas.classicrockwallpapersfinal/drawable/back_deeppurple_1");
+                        display.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.skull_1, 150, 150));
+                        toPhone = R.drawable.skull_1;
+                        uri = Uri.parse("android.resource://br.com.maracujas.classicrockwallpapersfinal/drawable/skull_1");
                         break;
                     case R.id.IVimage2:
                         display.setImageDrawable(null);
-                        display.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.back_deeppurple_2, 150, 150));
-                        toPhone = R.drawable.back_deeppurple_2;
-                        uri = Uri.parse("android.resource://br.com.maracujas.classicrockwallpapersfinal/drawable/back_deeppurple_2");
+                        display.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.skull_2, 150, 150));
+                        toPhone = R.drawable.skull_2;
+                        uri = Uri.parse("android.resource://br.com.maracujas.classicrockwallpapersfinal/drawable/skull_2");
                         break;
                     case R.id.IVimage3:
                         display.setImageDrawable(null);
-                        display.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.back_deeppurple_3, 150, 150));
-                        toPhone = R.drawable.back_deeppurple_3;
-                        uri = Uri.parse("android.resource://br.com.maracujas.classicrockwallpapersfinal/drawable/back_deeppurple_3");
+                        display.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.skull_3, 150, 150));
+                        toPhone = R.drawable.skull_3;
+                        uri = Uri.parse("android.resource://br.com.maracujas.classicrockwallpapersfinal/drawable/skull_3");
                         break;
                     case R.id.IVimage4:
                         display.setImageDrawable(null);
-                        display.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.back_deeppurple_4, 150, 150));
-                        toPhone = R.drawable.back_deeppurple_4;
-                        uri = Uri.parse("android.resource://br.com.maracujas.classicrockwallpapersfinal/drawable/back_deeppurple_4");
+                        display.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.skull_4, 150, 150));
+                        toPhone = R.drawable.skull_4;
+                        uri = Uri.parse("android.resource://br.com.maracujas.classicrockwallpapersfinal/drawable/skull_4");
                         break;
                     case R.id.IVimage5:
                         display.setImageDrawable(null);
-                        display.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.back_deeppurple_5, 150, 150));
-                        toPhone = R.drawable.back_deeppurple_5;
-                        uri = Uri.parse("android.resource://br.com.maracujas.classicrockwallpapersfinal/drawable/back_deeppurple_5");
+                        display.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.skull_5, 150, 150));
+                        toPhone = R.drawable.skull_5;
+                        uri = Uri.parse("android.resource://br.com.maracujas.classicrockwallpapersfinal/drawable/skull_5");
+                        break;
+                }
+                break;
+            case "fire":
+                switch (v.getId()) {
+                    case R.id.IVimage1:
+                        display.setImageDrawable(null);
+                        display.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.fire_1, 150, 150));
+                        toPhone = R.drawable.fire_1;
+                        uri = Uri.parse("android.resource://br.com.maracujas.classicrockwallpapersfinal/drawable/fire_1");
+                        break;
+                    case R.id.IVimage2:
+                        display.setImageDrawable(null);
+                        display.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.fire_2, 150, 150));
+                        toPhone = R.drawable.fire_2;
+                        uri = Uri.parse("android.resource://br.com.maracujas.classicrockwallpapersfinal/drawable/fire_2");
+                        break;
+                    case R.id.IVimage3:
+                        display.setImageDrawable(null);
+                        display.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.fire_3, 150, 150));
+                        toPhone = R.drawable.fire_3;
+                        uri = Uri.parse("android.resource://br.com.maracujas.classicrockwallpapersfinal/drawable/fire_3");
+                        break;
+                    case R.id.IVimage4:
+                        display.setImageDrawable(null);
+                        display.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.fire_4, 150, 150));
+                        toPhone = R.drawable.fire_4;
+                        uri = Uri.parse("android.resource://br.com.maracujas.classicrockwallpapersfinal/drawable/fire_4");
+                        break;
+                    case R.id.IVimage5:
+                        display.setImageDrawable(null);
+                        display.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.fire_5, 150, 150));
+                        toPhone = R.drawable.fire_5;
+                        uri = Uri.parse("android.resource://br.com.maracujas.classicrockwallpapersfinal/drawable/fire_5");
+                        break;
+                }
+                break;
+
+            case "guitar":
+                switch (v.getId()) {
+                    case R.id.IVimage1:
+                        display.setImageDrawable(null);
+                        display.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.gitarra_1, 150, 150));
+                        toPhone = R.drawable.gitarra_1;
+                        uri = Uri.parse("android.resource://br.com.maracujas.classicrockwallpapersfinal/drawable/gitarra_1");
+                        break;
+                    case R.id.IVimage2:
+                        display.setImageDrawable(null);
+                        display.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.gitarra_2, 150, 150));
+                        toPhone = R.drawable.gitarra_2;
+                        uri = Uri.parse("android.resource://br.com.maracujas.classicrockwallpapersfinal/drawable/gitarra_2");
+                        break;
+                    case R.id.IVimage3:
+                        display.setImageDrawable(null);
+                        display.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.gitarra_3, 150, 150));
+                        toPhone = R.drawable.gitarra_3;
+                        uri = Uri.parse("android.resource://br.com.maracujas.classicrockwallpapersfinal/drawable/gitarra_3");
+                        break;
+                    case R.id.IVimage4:
+                        display.setImageDrawable(null);
+                        display.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.gitarra_4, 150, 150));
+                        toPhone = R.drawable.gitarra_4;
+                        uri = Uri.parse("android.resource://br.com.maracujas.classicrockwallpapersfinal/drawable/gitarra_4");
+                        break;
+                    case R.id.IVimage5:
+                        display.setImageDrawable(null);
+                        display.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.gitarra_5, 150, 150));
+                        toPhone = R.drawable.gitarra_5;
+                        uri = Uri.parse("android.resource://br.com.maracujas.classicrockwallpapersfinal/drawable/gitarra_5");
                         break;
                 }
                 break;
@@ -347,13 +536,12 @@ public class WallpaperActivity extends AppCompatActivity implements View.OnClick
     }
 
     public void shareImage() {
-
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
-        shareIntent.setType("image/jpeg");
+        shareIntent.setType("image/jpg");
+        //shareIntent.setType( "text/plain");
         shareIntent.putExtra(Intent.EXTRA_TEXT, "Best Classic Rock Wallpapers!");
         shareIntent.putExtra(Intent.EXTRA_TITLE, "SHARE");
         shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
-        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         startActivity(Intent.createChooser(shareIntent, "Share image using"));
     }
 
