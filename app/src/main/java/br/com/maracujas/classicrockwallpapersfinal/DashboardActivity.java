@@ -54,7 +54,8 @@ public class DashboardActivity extends AppCompatActivity {
         mAdView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder()
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                .addTestDevice("F0777154C5F794B0B7A1EF4120502169").build();
+                .addTestDevice("F0777154C5F794B0B7A1EF4120502169")
+                .build();
 
         mAdView.loadAd(adRequest);
 

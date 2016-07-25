@@ -9,6 +9,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="br.com.maracujas.classicrockwallpapersfinal.WallpaperActivity"
     android:background="#626465" >
+
     <HorizontalScrollView
         android:id="@+id/HorizontalScrollView1"
         android:layout_width="fill_parent"

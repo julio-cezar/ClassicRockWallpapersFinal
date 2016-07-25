@@ -93,6 +93,16 @@ public class WallpaperActivity extends AppCompatActivity implements View.OnClick
         uri = Uri.parse("android.resource://br.com.maracujas.classicrockwallpapersfinal/mipmap/ideia_icon_grande");
         display.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.mipmap.ideia_icon_grande, 150, 150));
 
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-9694259300655137/3835087207");
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                requestNewInterstitial();
+            }
+        });
+        requestNewInterstitial();
+
         //storage = FirebaseStorage.getInstance();
        // RootRef = storage.getReferenceFromUrl("gs://classic-rock-wallpapers-final.appspot.com");
        // WallpapersRef = RootRef.child("wallpapers");
@@ -201,17 +211,6 @@ public class WallpaperActivity extends AppCompatActivity implements View.OnClick
                 Toast.makeText(getApplicationContext(), "no Image!", Toast.LENGTH_LONG).show();
                 break;
         }
-        mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId("ca-app-pub-9694259300655137/3637368002");
-
-        mInterstitialAd.setAdListener(new AdListener() {
-            @Override
-            public void onAdClosed() {
-                requestNewInterstitial();
-            }
-        });
-
-        requestNewInterstitial();
 
     }
 

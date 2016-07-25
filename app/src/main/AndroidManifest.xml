@@ -26,10 +26,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".WallpaperActivity" >
+        <activity android:name=".WallpaperActivity"
+            android:theme="@style/fullscreenTheme">
 
         </activity>
-        <activity android:name=".PreviewActivity"></activity>
+        <activity android:name=".PreviewActivity"
+            android:theme="@style/fullscreenTheme"></activity>
     </application>
 
 </manifest>
