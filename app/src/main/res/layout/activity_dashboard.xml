@@ -147,7 +147,7 @@
             android:id="@+id/adView"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            ads:adUnitId="ca-app-pub-9694259300655137/9990442803"
+            ads:adUnitId="ca-app-pub-7040951679419231/5289223505"
             ads:adSize="BANNER">
         </com.google.android.gms.ads.AdView>
 

@@ -122,8 +122,9 @@
         android:layout_marginTop="15dp"
         android:layout_toLeftOf="@+id/IBSound"
         android:text="ACDC"
-        android:textColor="#ffffff"
-        android:textSize="20sp" />
+        android:textColor="@color/colorAccent"
+        android:textSize="30sp"
+        android:textStyle="bold"/>
 
     <ImageButton
         android:id="@+id/IBSound"

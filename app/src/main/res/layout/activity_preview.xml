@@ -4,10 +4,10 @@
     xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="5dp"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
+    android:paddingTop="5dp"
     android:background="#626465"
     tools:context="br.com.maracujas.classicrockwallpapersfinal.PreviewActivity">
     <ImageView
@@ -33,8 +33,10 @@
             android:id="@+id/adViewP"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            ads:adUnitId="ca-app-pub-9694259300655137/6125319609"
-            ads:adSize="BANNER"/>
+            ads:adUnitId="ca-app-pub-7040951679419231/6765956708"
+            ads:adSize="BANNER">
+        </com.google.android.gms.ads.AdView>
+
     </FrameLayout>
 
 

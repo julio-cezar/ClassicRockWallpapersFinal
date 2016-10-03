@@ -7,4 +7,10 @@
     <string name="fire">Fire</string>
     <string name="skull">Skull</string>
     <string name="rock">Rock</string>
+    <string name="saved_success">Image Saved Succesfully!</string>
+    <string name="already_saved">Image already Saved!</string>
+    <string name="wallpaper_set_sucess">Image was set as Wallpaper Succesfully!</string>
+
+
+
 </resources>

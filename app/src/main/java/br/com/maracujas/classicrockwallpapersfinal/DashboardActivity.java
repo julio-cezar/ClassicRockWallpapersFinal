@@ -48,8 +48,9 @@ public class DashboardActivity extends AppCompatActivity {
                     14);
 
         }
+        //MobileAds.initialize(getApplicationContext(), "ca-app-pub-9694259300655137~7036976403");
 
-        MobileAds.initialize(getApplicationContext(), "ca-app-pub-9694259300655137~7036976403");
+        MobileAds.initialize(getApplicationContext(), "ca-app-pub-7040951679419231~6905557505");
 
         mAdView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder()

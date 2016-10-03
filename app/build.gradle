@@ -7,8 +7,8 @@ android {
         applicationId 'br.com.maracujas.classicrockwallpapersfinal'
         minSdkVersion 15
         targetSdkVersion 24
-        versionCode 7
-        versionName "5.2"
+        versionCode 8
+        versionName "5.3"
     }
     buildTypes {
         release {
@@ -24,10 +24,10 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:24.0.0'
-    compile 'com.google.firebase:firebase-ads:9.2.0'
-    compile 'com.google.firebase:firebase-messaging:9.2.0'
-    compile 'com.google.firebase:firebase-storage:9.2.0'
-    compile 'com.google.firebase:firebase-auth:9.2.0'
-    compile 'com.google.firebase:firebase-crash:9.2.0'
+    compile 'com.google.firebase:firebase-ads:9.6.1'
+    compile 'com.google.firebase:firebase-messaging:9.6.1'
+    compile 'com.google.firebase:firebase-storage:9.6.1'
+    compile 'com.google.firebase:firebase-auth:9.6.1'
+    compile 'com.google.firebase:firebase-crash:9.6.1'
 }
 apply plugin: 'com.google.gms.google-services'

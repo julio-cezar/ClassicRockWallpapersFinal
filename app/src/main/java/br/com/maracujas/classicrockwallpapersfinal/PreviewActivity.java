@@ -16,9 +16,11 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 
+import java.io.File;
+
 public class PreviewActivity extends AppCompatActivity {
     Bundle extras;
-    int imageId;
+    File imageFile;
     AdView adView;
 
     @Override
@@ -35,9 +37,16 @@ public class PreviewActivity extends AppCompatActivity {
 
         if (extras != null) {
             //String auximage = extras.getString("image");
-            imageId = extras.getInt("image");
+          //  imageId = ;
+
+             imageFile = new File(extras.getString("image"));
+            Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
+            image1.setImageBitmap(bitmap);
+        }else{
+            image1.setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.mipmap.ideia_icon_grande, 380, 600));
         }
-        image1.setImageBitmap(decodeSampledBitmapFromResource(getResources(), imageId, 380, 600));
+
+        MobileAds.initialize(getApplicationContext(), "ca-app-pub-7040951679419231~6905557505");
 
         adView = (AdView)this.findViewById(R.id.adViewP);
         AdRequest adRequest = new AdRequest.Builder()
